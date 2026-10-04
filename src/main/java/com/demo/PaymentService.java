@@ -29,3 +29,10 @@ public class PaymentService {
         return "order-" + id;
     }
 }
+
+// develop 追加：又一个循环内查库（叠加 N+1）
+class BatchLoader {
+    void load(List<Long> ids) {
+        for (Long id : ids) queryOrderById(id.intValue());
+    }
+}
