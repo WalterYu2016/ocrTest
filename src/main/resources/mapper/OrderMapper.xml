@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.OrderMapper">
+
+    <!-- SQL 注入风险：${} 直接拼接，应使用 #{}（r6 / c6 注入规则） -->
+    <select id="selectByUser" parameterType="map" resultType="map">
+        SELECT * FROM t_order WHERE user_name = ${userName}
+    </select>
+
+    <!-- 全表扫描：SELECT * 且无 WHERE 条件（c6 性能规则） -->
+    <select id="listAll" resultType="map">
+        SELECT * FROM t_order
+    </select>
+
+    <!-- 隐式类型转换导致索引失效：字符串字段用数字比较（c6 性能规则） -->
+    <select id="byCode" parameterType="int" resultType="map">
+        SELECT id, order_code FROM t_order WHERE order_code = ${code}
+    </select>
+
+</mapper>
